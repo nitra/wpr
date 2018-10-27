@@ -16,7 +16,7 @@ const deleteFileAsync = promisify(fs.unlink)
 const wprFile = '/tmp/archive.wprgo'
 let child
 
-exports.startWpr = async function () {
+exports.start = async function () {
   try {
     const wprPath = path.resolve(__dirname, 'platforms')
 
@@ -37,7 +37,7 @@ exports.startWpr = async function () {
   }
 }
 
-exports.stopWpr = async function () {
+exports.stop = async function () {
   try {
     if (child !== undefined) {
       console.log('Child exist')

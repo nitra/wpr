@@ -14,6 +14,6 @@ Provide binary of `wpr` for the Linux x64 and Mac platforms.
 ```javascript
 const wpr = require('wpr')
 
-await wpr.startWpr()
-await wpr.stopWpr()
+await wpr.start()
+await wpr.stop()
 ```
