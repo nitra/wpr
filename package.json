@@ -1,6 +1,6 @@
 {
   "name": "wpr",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Web Page Replay Go binary",
   "main": "index.js",
   "repository": {
@@ -19,6 +19,6 @@
   "dependencies": {
   },
   "engines" : { 
-    "node" : "^8" 
+    "node" : ">=8.0.0" 
   }
 }
