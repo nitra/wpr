@@ -28,19 +28,16 @@ exports.start = async function (operation = 'replay') {
     // Show WPR output
     if (process.env.DEBUG) {
       child.stderr.on('data', (data) => {
-        console.log(`wpr: ${typeof data === 'string' ? data.trim() : data}`)
+        console.log(`wpr: ${data}`.trim())
       })
     }
 
     // Wait 30 second for wpr start
-    try {
-      await tcpPortUsed.waitUntilUsed(8080, 500, 30000)
-      console.log(`wpr started in ${operation} mode`)
-    } catch (err) {
-      console.error(err)
-    }
+    await tcpPortUsed.waitUntilUsed(8080, 500, 30000)
+    console.log(`wpr started in ${operation} mode`)
+
   } catch (err) {
-    console.error(err)
+    throw new Error(err)
   }
 }
 
@@ -53,25 +50,22 @@ exports.stop = async function () {
     }
 
     // Wait 30 second for wpr end
-    try {
-      await tcpPortUsed.waitUntilFree(8080, 500, 30000)
-      console.log(`wpr stopped`)
-    } catch (err) {
-      console.error(err)
-    }
+    await tcpPortUsed.waitUntilFree(8080, 500, 30000)
+    console.log(`wpr stopped`)
+
   } catch (err) {
-    console.error(err)
+    throw new Error(err)
   }
 }
 
 // delete wpr file
 exports.clean = async function () {
-    try {
-      await deleteFileAsync(wprFile)
-      console.log(`${wprFile} deleted`)
-    } catch (err) {
-      console.log(`${wprFile} not exist`)
-    }
+  try {
+    await deleteFileAsync(wprFile)
+    console.log(`${wprFile} deleted`)
+  } catch (err) {
+    console.log(`${wprFile} not exist`)
+  }
 }
 
 // get full path to wpr file
