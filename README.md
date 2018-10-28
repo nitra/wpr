@@ -14,6 +14,15 @@ Provide binary of `wpr` for the Linux x64 and Mac platforms.
 ```javascript
 const wpr = require('wpr')
 
+// start record
+await wpr.start('record')
+
+// start play
 await wpr.start()
+
+// start play or record
 await wpr.stop()
+
+// remove wpr file
+await wpr.clean()
 ```

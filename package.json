@@ -1,6 +1,6 @@
 {
   "name": "wpr",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "description": "Web Page Replay Go binary",
   "main": "index.js",
   "repository": {
@@ -17,8 +17,9 @@
   },
   "homepage": "https://github.com/nitra/wpr#readme",
   "dependencies": {
+    "tcp-port-used": "^1.0.1"
   },
-  "engines" : { 
-    "node" : ">=8.0.0" 
+  "engines": {
+    "node": ">=8.0.0"
   }
 }
