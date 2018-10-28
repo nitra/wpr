@@ -28,19 +28,17 @@ exports.start = async function (operation = 'replay') {
     // Show WPR output
     if (process.env.DEBUG) {
       child.stderr.on('data', (data) => {
-        console.log(`wpr:\n${data}`)
+        console.log(`wpr:${data}`)
       })
     }
 
     // Wait 30 second for wpr start
     try {
       await tcpPortUsed.waitUntilUsed(8080, 500, 30000)
-      console.log(`wpr started`)
+      console.log(`wpr started in ${operation} mode`)
     } catch (err) {
       console.error(err)
     }
-
-    console.log('Wpr started')
   } catch (err) {
     console.error(err)
   }
