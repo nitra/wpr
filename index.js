@@ -28,7 +28,7 @@ exports.start = async function (operation = 'replay') {
     // Show WPR output
     if (process.env.DEBUG) {
       child.stderr.on('data', (data) => {
-        console.log(`wpr:${data}`)
+        console.log(`wpr: ${data.trim()}`)
       })
     }
 
@@ -59,8 +59,6 @@ exports.stop = async function () {
     } catch (err) {
       console.error(err)
     }
-
-    console.log('Wpr stopped')
   } catch (err) {
     console.error(err)
   }
