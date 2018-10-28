@@ -18,6 +18,7 @@ const wprPath = path.resolve(__dirname, 'platforms')
 const wprFile = '/tmp/archive.wprgo'
 let child
 
+// Start replay or record
 exports.start = async function (operation = 'replay') {
   try {
     child = spawn(`${wprPath}/${platform}/wpr`, [operation, '--http_port=8080', '--https_port=8081', wprFile], {
@@ -45,6 +46,7 @@ exports.start = async function (operation = 'replay') {
   }
 }
 
+// Stop replay or record
 exports.stop = async function () {
   try {
     if (child !== undefined) {
@@ -66,6 +68,7 @@ exports.stop = async function () {
   }
 }
 
+// delete wpr file
 exports.clean = async function () {
     try {
       await deleteFileAsync(wprFile)
@@ -73,4 +76,9 @@ exports.clean = async function () {
     } catch (err) {
       console.log(`${wprFile} not exist`)
     }
+}
+
+// get full path to wpr file
+exports.wprFile = function () {
+  return wprFile
 }

@@ -1,6 +1,6 @@
 {
   "name": "wpr",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Web Page Replay Go binary",
   "main": "index.js",
   "repository": {
