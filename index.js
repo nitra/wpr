@@ -18,6 +18,10 @@ const wprPath = path.resolve(__dirname, 'platforms')
 const wprFile = '/tmp/archive.wprgo'
 let child
 
+const getLogger = require('loglevel-colored-level-prefix')
+const log = getLogger()
+log.debug('WPR start in DEBUG MODE')
+
 // Start replay or record
 exports.start = async function (operation = 'replay') {
   try {
@@ -26,16 +30,15 @@ exports.start = async function (operation = 'replay') {
     })
 
     // Show WPR output
-    if (process.env.DEBUG) {
+    if (log.getLevel() === log.levels.DEBUG) {
       child.stderr.on('data', (data) => {
-        console.log(`wpr: ${data}`.trim())
+        log.debug(`wpr: ${data}`.trim())
       })
     }
 
     // Wait 30 second for wpr start
     await tcpPortUsed.waitUntilUsed(8080, 500, 30000)
-    console.log(`wpr started in ${operation} mode`)
-
+    log.debug(`wpr started in ${operation} mode`)
   } catch (err) {
     throw new Error(err)
   }
@@ -45,14 +48,13 @@ exports.start = async function (operation = 'replay') {
 exports.stop = async function () {
   try {
     if (child !== undefined) {
-      console.log('Child exist')
+      log.debug('Child exist')
       child.kill('SIGINT')
     }
 
     // Wait 30 second for wpr end
     await tcpPortUsed.waitUntilFree(8080, 500, 30000)
-    console.log(`wpr stopped`)
-
+    log.debug(`wpr stopped`)
   } catch (err) {
     throw new Error(err)
   }
@@ -62,9 +64,9 @@ exports.stop = async function () {
 exports.clean = async function () {
   try {
     await deleteFileAsync(wprFile)
-    console.log(`${wprFile} deleted`)
+    log.debug(`${wprFile} deleted`)
   } catch (err) {
-    console.log(`${wprFile} not exist`)
+    log.error(`${wprFile} not exist`)
   }
 }
 
