@@ -31,11 +31,11 @@ exports.start = async function (operation = 'replay') {
     })
 
     // Show WPR output
-    if (log.getLevel() === log.levels.DEBUG) {
-      child.stderr.on('data', (data) => {
-        log.debug(`wpr: ${data}`.trim())
-      })
-    }
+    // if (log.getLevel() === log.levels.DEBUG) {
+    child.stderr.on('data', (data) => {
+      log.debug(`wpr: ${data}`.trim())
+    })
+    // }
 
     // Wait 30 second for wpr start
     await tcpPortUsed.waitUntilUsed(8080, 500, 30000)
