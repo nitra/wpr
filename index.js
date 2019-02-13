@@ -1,5 +1,6 @@
 'use strict'
 
+const exitHook = require('exit-hook')
 const path = require('path')
 const os = require('os')
 const {
@@ -74,3 +75,18 @@ exports.clean = async function () {
 exports.wprFile = function () {
   return wprFile
 }
+
+// Stop and clean on exit
+exitHook(() => {
+  log.debug('Exiting')
+
+  if (child !== undefined) {
+    log.debug('Child exist - kill')
+    child.kill('SIGINT')
+  }
+
+  if (fs.existsSync(wprFile)) {
+    log.debug(`${wprFile} exist - delete`)
+    fs.unlinkSync(wprFile)
+  }
+})
