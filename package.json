@@ -1,6 +1,6 @@
 {
-  "name": "wpr",
-  "version": "1.4.1",
+  "name": "@nitra/wpr",
+  "version": "1.5.0",
   "description": "Web Page Replay Go binary",
   "repository": {
     "type": "git",
@@ -15,6 +15,9 @@
     "url": "https://github.com/nitra/wpr/issues"
   },
   "homepage": "https://github.com/nitra/wpr#readme",
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "exit-hook": "^2.0.0",
     "loglevel-colored-level-prefix": "^1.0.0",
