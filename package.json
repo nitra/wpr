@@ -1,6 +1,6 @@
 {
   "name": "@nitra/wpr",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "Web Page Replay Go binary",
   "repository": {
     "type": "git",

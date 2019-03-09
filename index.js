@@ -50,13 +50,18 @@ exports.stop = async function () {
       log.debug('Child exist')
       child.kill('SIGINT')
     }
-
-    // Wait 30 second for wpr end
-    await tcpPortUsed.waitUntilFree(8080, 500, 30000)
-    log.debug(`wpr stopped`)
   } catch (err) {
     throw new Error(err)
   }
+
+  // Wait 30 second for wpr end
+  try {
+    await tcpPortUsed.waitUntilFree(8080, 500, 30000)
+  } catch (err) {
+    log.debug(err)
+  }
+
+  log.debug(`wpr stopped`)
 }
 
 // delete wpr file
