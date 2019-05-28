@@ -3,12 +3,8 @@
 const exitHook = require('exit-hook')
 const path = require('path')
 const os = require('os')
-const {
-  spawn
-} = require('child_process')
-const {
-  promisify
-} = require('util')
+const { spawn } = require('child_process')
+const { promisify } = require('util')
 const tcpPortUsed = require('tcp-port-used')
 const fs = require('fs')
 const deleteFileAsync = promisify(fs.unlink)
@@ -21,12 +17,12 @@ let child
 
 const getLogger = require('loglevel-colored-level-prefix')
 const log = getLogger()
-log.debug('WPR start in DEBUG MODE')
+log.debug('WPR start in DEBUG MODE - http: 8888, https: 8081 ')
 
 // Start replay or record
 exports.start = async function (operation = 'replay') {
   try {
-    child = spawn(`${wprPath}/${platform}/wpr`, [operation, '--http_port=8080', '--https_port=8081', wprFile], {
+    child = spawn(`${wprPath}/${platform}/wpr`, [operation, '--http_port=8888', '--https_port=8081', wprFile], {
       cwd: wprPath
     })
 
@@ -36,7 +32,7 @@ exports.start = async function (operation = 'replay') {
     })
 
     // Wait 30 second for wpr start
-    await tcpPortUsed.waitUntilUsed(8080, 500, 30000)
+    await tcpPortUsed.waitUntilUsed(8888, 500, 30000)
     log.debug(`wpr started in ${operation} mode`)
   } catch (err) {
     throw new Error(err)
@@ -56,7 +52,7 @@ exports.stop = async function () {
 
   // Wait 30 second for wpr end
   try {
-    await tcpPortUsed.waitUntilFree(8080, 500, 30000)
+    await tcpPortUsed.waitUntilFree(8888, 500, 30000)
   } catch (err) {
     log.debug(err)
   }
