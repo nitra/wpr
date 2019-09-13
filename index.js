@@ -15,11 +15,14 @@ const wprPath = path.resolve(__dirname, 'platforms')
 const wprFile = '/tmp/archive.wprgo'
 let child
 
-const getLogger = require('loglevel-colored-level-prefix')
-const log = getLogger()
+const log = require('loglevel-colored-level-prefix')()
 log.debug('WPR start in DEBUG MODE - http: 8888, https: 8081 ')
 
-// Start replay or record
+/**
+ * Start replay or record
+ *
+ * @param {('replay'|'record')} operation Operation type
+ */
 exports.start = async function (operation = 'replay') {
   try {
     child = spawn(`${wprPath}/${platform}/wpr`, [operation, '--http_port=8888', '--https_port=8081', wprFile], {
@@ -27,9 +30,11 @@ exports.start = async function (operation = 'replay') {
     })
 
     // Show WPR output
-    child.stderr.on('data', (data) => {
-      log.debug(`wpr: ${data}`.trim())
-    })
+    if (process.env.VERBOSE) {
+      child.stderr.on('data', (data) => {
+        log.debug(`wpr: ${data}`.trim())
+      })
+    }
 
     // Wait 30 second for wpr start
     await tcpPortUsed.waitUntilUsed(8888, 500, 30000)
@@ -39,11 +44,13 @@ exports.start = async function (operation = 'replay') {
   }
 }
 
-// Stop replay or record
+/**
+ * Stop replay or record
+ */
 exports.stop = async function () {
   try {
     if (child !== undefined) {
-      log.debug('Child exist')
+      log.debug('Child exist - kill him')
       child.kill('SIGINT')
     }
   } catch (err) {
@@ -57,10 +64,12 @@ exports.stop = async function () {
     log.debug(err)
   }
 
-  log.debug(`wpr stopped`)
+  log.debug('wpr stopped')
 }
 
-// delete wpr file
+/**
+ * delete wpr file
+ */
 exports.clean = async function () {
   try {
     await deleteFileAsync(wprFile)
@@ -70,7 +79,11 @@ exports.clean = async function () {
   }
 }
 
-// get full path to wpr file
+/**
+ * get full path to wpr file
+ *
+ * @return {String}
+ */
 exports.wprFile = function () {
   return wprFile
 }
@@ -80,7 +93,7 @@ exitHook(() => {
   log.debug('Exiting')
 
   if (child !== undefined) {
-    log.debug('Child exist - kill')
+    log.debug('Child exist - hard kill')
     child.kill('SIGINT')
   }
 

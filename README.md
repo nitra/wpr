@@ -26,3 +26,7 @@ await wpr.stop()
 // remove wpr file
 await wpr.clean()
 ```
+
+## 
+
+set ENV ```VERBOSE``` to extened output
